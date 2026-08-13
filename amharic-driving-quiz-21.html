@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የአሽከርካሪዎች ፈተና ጥያቄዎች (Driving License Quiz)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eef0f3;
+        }
+
+        .progress {
+            font-size: 30px;
+            font-weight: bold;
+            color: #4b6cb7;
+        }
+
+        .score-counter {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #333;
+            width: 100%;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #eef2f5;
+            border-color: #cbd5e1;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .next-btn {
+            background-color: #182848;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background-color: #4b6cb7;
+        }
+
+        .results-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .results-container h2 {
+            font-size: 26px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .results-container p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .restart-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .restart-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div id="quiz">
+        <div class="header">
+            <span class="progress" id="progress">የመንጃ ፈተና ኩዊዝ 21</span>
+            <span class="score-counter" id="score-counter">ነጥብ፡ 0</span>
+        </div>
+
+        <div class="question-text" id="question">ጥያቄ እዚህ ይጫናል...</div>
+
+        <div class="options-container" id="options">
+            <!-- Option buttons dynamically inserted here -->
+        </div>
+
+        <div class="controls">
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">ቀጣይ ጥያቄ</button>
+        </div>
+    </div>
+
+    <div id="results" class="results-container" style="display: none;">
+        <h2>ፈተናዉን ጨርሰዋል!</h2>
+        <p id="final-score">ያገኙት ነጥብ: 0 / 10</p>
+        <button class="restart-btn" onclick="restartQuiz()">እንደገና ጀምር</button>
+        <h2><a href="https://yosephel.github.io/mekinaapp/">የመንጃ ፈተና ኩዊዞች</a></h2>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            number: 201,
+            question: "201. ከሚከተሉት አንዱ ለፍሪሲዮን መገጠሚያነት ያገለግላል?",
+            options: [
+                "ሀ. ክራንክ ሻፍት",
+                "ለ. ካም ሻፍት",
+                "ሐ. ፍላይ ዊል(ቮላኖ)",
+                "መ. መልስ የለም"
+            ],
+            answer: 2 // ሐ
+        },
+        {
+            number: 202,
+            question: "202. ከሚከተሉት የፍላይዊል /ቮላኖ/ ጥቅም ያልሆነውን ለይ?",
+            options: [
+                "ሀ. ዙሪያዉን ባሉት ጥርሶች ሞተርን ለማስነሳት",
+                "ለ. የሞተርን ሚዛን መጠበቅ",
+                "ሐ. የሞተርን ሃይል ወደ ጎማ ማስተላለፍ",
+                "መ. መልሱ የለም"
+            ],
+            answer: 2 // ሐ
+        },
+        {
+            number: 203,
+            question: "203. አስወጪ ቫልቮች ከአስገቢ ቫልቮች የሚለዩት በራሳቸው ስፕሪንግ በመከፈት በራሳቸው ስፕሪንግ በመዘጋታቸዉ ነዉ?",
+            options: [
+                "ሀ. እውነት",
+                "ለ. ሀሰት"
+            ],
+            answer: 1 // ለ. ሀሰት
+        },
+        {
+            number: 204,
+            question: "204. የፊት (የግንባር) መብራት በድንገት በማይሰራበት ወቅት መደረግ ያለበትን ለይ?",
+            options: [
+                "ሀ. የመብራት መቆጣጠሪያን በተደጋጋሚ መሞከር",
+                "ለ. በፓርኪንግ መብራት ተጠቅሞ ማሽከርከር",
+                "ሐ. የሃዛርድ መብራትም ማብራት",
+                "መ. “ሀ” እና “ሐ” መልስ ናቸዉ"
+            ],
+            answer: 3 // መ
+        },
+        {
+            number: 205,
+            question: "205. አስወጪ ቫልቮች ከአስገቢ ቫልቮች በመጠናቸው ትንሽ ናቸው?",
+            options: [
+                "ሀ. እውነት",
+                "ለ. ሀሠት"
+            ],
+            answer: 0 // ሀ. እውነት
+        },
+        {
+            number: 206,
+            question: "206. በኤሌክትሪክ ምክንያት ለተነሳ እሳት ማጥፊያነት የሚያገለግል የእሳት ማጥፊያ መሳሪያ የትኛዉ ነዉ?",
+            options: [
+                "ሀ. አንደኛ ደረጃ",
+                "ለ. አራተኛ ደረጃ",
+                "ሐ. ሶስተኛ ደረጃ",
+                "መ. መልሱ የለም"
+            ],
+            answer: 2 // ሐ. ሶስተኛ ደረጃ (Class C)
+        },
+        {
+            number: 207,
+            question: "207. የሙቀትን ሃይል ወደ መካኒካል ሃይል በመቀየር ሃይል የሚፈጠርበት ክፍል ይባላል?",
+            options: [
+                "ሀ. ጊር ቦክስ",
+                "ለ. ሞተር",
+                "ሐ. ባትሪ",
+                "መ. ዲናሞ"
+            ],
+            answer: 1 // ለ. ሞተር
+        },
+        {
+            number: 208,
+            question: "208. በቤንዚን ሞተር ላይ በማስገባት ምት ወቅት አየር ብቻ ወደ ሲሊንደር ይገባል?",
+            options: [
+                "ሀ. እውነት",
+                "ለ. ሀሰት"
+            ],
+            answer: 1 // ለ. ሀሰት (አየር እና ነዳጅ ድብልቅ ነው የሚገባው)
+        },
+        {
+            number: 209,
+            question: "209. በሞተር ውስጥ ሃይል ለመፍጠር የሚረዱ ምቶች ቅደም ተከተል ትክክል የሆነዉን ለይ?",
+            options: [
+                "ሀ. የማስወጣት ምት -> የማመቅ ምት -> ማስገባት ምት -> የሃይል ምት",
+                "ለ. የሃይል ምት -> የማስገባት ምት -> የማስወጣት ምት -> የማመቅ ምት",
+                "ሐ. የማስገባት ምት -> የማመቅ ምት -> የሃይል ምት -> የማስወጣት ምት",
+                "መ. የማስገባት ምት -> የሃይል ምት -> የማስወጣት ምት -> የማመቅ ምት"
+            ],
+            answer: 2 // ሐ
+        },
+        {
+            number: 210,
+            question: "210. በናፍጣ ሞተር በማመቅ ምት ወቅት ወደ ሲሊንደር የገባ አየርና ነዳጅ ይታመቃል?",
+            options: [
+                "ሀ. እውነት",
+                "ለ. ሀሰት"
+            ],
+            answer: 1 // ለ. ሀሰት (አየር ብቻ ነው የሚታመቀው)
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const progressElement = document.getElementById("progress");
+    const scoreCounterElement = document.getElementById("score-counter");
+    const nextButton = document.getElementById("next-btn");
+    const quizContainer = document.getElementById("quiz");
+    const resultsContainer = document.getElementById("results");
+    const finalScoreElement = document.getElementById("final-score");
+
+    function loadQuestion() {
+        resetState();
+        const currentData = quizData[currentQuestionIndex];
+        
+        progressElement.textContent = `የመንጃ ፈተና ኩዊዝ 200 - ${currentQuestionIndex + 1} / ${quizData.length}`;
+        scoreCounterElement.textContent = `ነጥብ፡ ${score}`;
+        questionElement.textContent = currentData.question;
+
+        currentData.options.forEach((option, index) => {
+            const button = document.createElement("button");
+            button.textContent = option;
+            button.classList.add("option-btn");
+            button.addEventListener("click", () => selectOption(index));
+            optionsElement.appendChild(button);
+        });
+    }
+
+    function resetState() {
+        nextButton.style.display = "none";
+        while (optionsElement.firstChild) {
+            optionsElement.removeChild(optionsElement.firstChild);
+        }
+    }
+
+    function selectOption(selectedIndex) {
+        const currentData = quizData[currentQuestionIndex];
+        const optionButtons = optionsElement.children;
+
+        // Disable all buttons once an answer is chosen
+        for (let i = 0; i < optionButtons.length; i++) {
+            optionButtons[i].disabled = true;
+        }
+
+        if (selectedIndex === currentData.answer) {
+            optionButtons[selectedIndex].classList.add("correct");
+            score++;
+            scoreCounterElement.textContent = `ነጥብ፡ ${score}`;
+        } else {
+            optionButtons[selectedIndex].classList.add("incorrect");
+            // Show the correct answer
+            optionButtons[currentData.answer].classList.add("correct");
+        }
+
+        nextButton.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        quizContainer.style.display = "none";
+        resultsContainer.style.display = "block";
+        finalScoreElement.textContent = `ያገኙት ነጥብ: ${score} / ${quizData.length}`;
+    }
+
+    function restartQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        resultsContainer.style.display = "none";
+        quizContainer.style.display = "block";
+        loadQuestion();
+    }
+
+    // Start Quiz on Load
+    loadQuestion();
+</script>
+
+</body>
+</html>
