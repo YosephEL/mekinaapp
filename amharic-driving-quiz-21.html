@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- External CSS Link -->
+    <link rel="stylesheet" href="styles.css">
     <title>የአሽከርካሪዎች ፈተና ጥያቄዎች (Driving License Quiz)</title>
     <style>
         * {
@@ -299,7 +301,7 @@
         resetState();
         const currentData = quizData[currentQuestionIndex];
         
-        progressElement.textContent = `የመንጃ ፈተና ኩዊዝ 200 - ${currentQuestionIndex + 1} / ${quizData.length}`;
+        progressElement.textContent = `የመንጃ ፈተና 200 - ${currentQuestionIndex + 1} / ${quizData.length}`;
         scoreCounterElement.textContent = `ነጥብ፡ ${score}`;
         questionElement.textContent = currentData.question;
 
@@ -367,6 +369,7 @@
     // Start Quiz on Load
     loadQuestion();
 </script>
+    <script src="script.js"></script>
 
 </body>
 </html>

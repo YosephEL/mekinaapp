@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>የመንጃ ፈተና ኩዊዝ</title>
+  <link rel="stylesheet" href="styles.css">
+  <title>የመንጃ ፈተና </title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;500;600;700&display=swap');
     * { box-sizing: border-box; }
@@ -108,5 +109,7 @@
     $('restart').onclick = () => { index = 0; score = 0; $('resultScreen').classList.add('hidden'); $('quizScreen').classList.remove('hidden'); render(); };
     render();
   </script>
+      <script src="script.js"></script>
+
 </body>
 </html>
