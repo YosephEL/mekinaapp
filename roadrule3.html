@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>የአሽከርካሪዎች ፈተና መተግበሪያ (Driving Test App)</title>
     <!-- External CSS Link -->
-    <link rel="stylesheet" href="script/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="index.html#content-body" onclick="selectMenuFromBurger('quiz')">
+                    <a href="index.html#quiz-section" onclick="selectMenuFromBurger('quiz')">
                         <span>📝</span> ፈተና (Quiz)
                     </a>
                 </li>
@@ -50,7 +50,31 @@
     <div class="app-container">
         
         <!-- Three Navigation Cards -->
-       
+        <div class="menu-grid">
+            
+            <!-- Menu 1: Lessons -->
+            <div class="menu-card active" id="card-lesson" onclick="switchTab('lesson')">
+                <div class="menu-icon">📚</div>
+                <div class="menu-title">ትምህርት (Lessons)</div>
+                <div class="menu-subtitle">የፅሁፍ ትምህርቶች እና ህጎች</div>
+            </div>
+
+            <!-- Menu 2: Videos -->
+            <div class="menu-card" id="card-video" onclick="switchTab('video')">
+                <div class="menu-icon">🎥</div>
+                <div class="menu-title">ቪዲዮዎች (Videos)</div>
+                <div class="menu-subtitle">የማብራሪያ እና የማሽከርከር ቪዲዮዎች</div>
+            </div>
+
+            <!-- Menu 3: Quiz -->
+            <div class="menu-card" id="card-quiz" onclick="switchTab('quiz')">
+                <div class="menu-icon">📝</div>
+                <div class="menu-title">ፈተና (Quiz)</div>
+                <div class="menu-subtitle">የተግባር ጥያቄዎች እና ምዘና</div>
+            </div>
+
+        </div>
+
 
         <!-- Dynamic Body Content Sections -->
          <div id="lesson-section" class="section-content active">
@@ -166,6 +190,6 @@
     </footer>
 
     <!-- External JavaScript Link -->
-    <script src="script/Script.js"></script>
+    <script src="Script.js"></script>
 </body>
 </html>
